@@ -2,7 +2,7 @@
 #include<stdlib.h>
 typedef int ElemType;
 
-//单链表节点类型描述 
+//单链表节点类型描述 嘿嘿嘿
 typedef struct LNode{
 	ElemType data;
 	struct LNode *next;
