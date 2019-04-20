@@ -1,0 +1,112 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef int ElemType;
+
+//单链表节点类型描述 嘿嘿
+typedef struct LNode{
+	ElemType data;
+	struct LNode *next;
+}LNode , *LinkList;
+
+//头插法建立新链表
+
+LinkList createLinkListHead(LinkList &L){
+	
+	L = (LinkList)malloc(sizeof(LNode));
+	L->next = NULL;
+	int x;
+	LNode *s;
+	scanf("%d",&x);
+	while(x!=9999){
+	  s = (LNode *)malloc(sizeof(LNode));
+	  s->data = x;
+      s->next = L->next;
+      L->next = s;
+      scanf("%d",&x);
+	} 
+	return L;	
+} 
+
+//尾插法建立单链表
+LinkList createListEnd(LinkList &L){
+	int x;
+	L = (LinkList)malloc(sizeof(LNode));
+	LNode *s;
+	LNode *r = L;
+	scanf("%d",&x);
+	while(x!=9999){
+		s = (LNode *)malloc(sizeof(LNode));
+		s->data = x;
+		r->next = s;
+		r = s; 
+		scanf("%d",&x);
+	}
+	r->next = NULL;
+	return L;
+} 
+void printfList(LinkList L){
+	L = L->next;
+	while(L!=NULL){
+		printf("%d",L->data);
+		L = L->next;
+	}
+	printf("\n");
+}
+//按序号查找
+LNode *getElem(LinkList L,int i){
+	LNode *p = L->next; 
+	int j = 1;
+	if(i == 0) return L;
+	if(i < 1) return NULL; 
+	while(p&&j<i){
+		p = p->next;
+		j++;
+	}
+	return p;
+} 
+
+//按值查找
+LNode *getElemByValue(LinkList L,ElemType e){
+	LNode *p = L->next;
+	int j = 1;
+	while(p!=NULL && p->data != e){
+		p = p->next;
+	}
+	return p;
+} 
+
+//插入节点
+LinkList insertNode(LinkList &L,int i,ElemType e){
+	LNode *p = getElem(L,i-1);
+	LNode *s;
+	s = (LNode *)malloc(sizeof(LNode));
+	s->data = e;
+	s->next = p->next;
+	p->next = s;
+}
+
+//删除节点
+LinkList deleteNode(LinkList &L,int i) {
+	LNode *p = getElem(L,i-1);
+	LNode *q = p->next;
+	p->next = q ->next;
+	free(q);
+}
+int main(){
+	LinkList L;
+	LinkList search;
+	//createLinkListHead(L);//3 4 5 6 7 9999
+	createListEnd(L);
+	//search = getElem(L,2);
+//	search = getElemByValue(L,3);
+//	
+//	if(search!=NULL){
+//		printf("%d\n",search->data);
+//	}
+	insertNode(L,2,8);
+	printf("插入节点后的链表为:\n");
+	printfList(L);
+	printf("删除节点后的链表为:\n");
+	deleteNode(L,4); 
+	printfList(L);
+}
