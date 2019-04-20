@@ -36,16 +36,28 @@ void prinList(LinkList L){
 } 
 //删除最下的结点
 void deleteMin(LinkList &L){
-	LNode *p = L->next;
-	int min = p->data;
-	while(p->next!=NULL){
-		if(min<p->data){
-			
+	//工作指针 pre是p的前驱结点 
+	LNode *pre = L;
+	LNode *p = pre->next; 
+	//最小值结点及其指针
+	LNode *minpre = pre;
+	LNode *minp = minpre->next;
+	while(p!=NULL){
+		if(p->data<minp->data){
+			minp = p;
+			minpre = pre;
 		}
+		//扫描下一个结点 
+		pre = p;
+		p = p->next; 
 	}
+	minpre->next = minp->next;
+	free(minp); 
 } 
 main(){
 	LinkList L;
 	createlinkListHead(L);
+	prinList(L);
+	deleteMin(L);
 	prinList(L);
 }
