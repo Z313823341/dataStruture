@@ -12,7 +12,7 @@ typedef struct LNode{
 }LNode,*LinkList;
 
 //头插法建立单链表
- void createlinkListHead(LinkList &L){
+ void createlinkListHead(LinkList &L){//3 5 9 9 6 8 7 9999 
  	LNode *s;
  	int x;
  	L = (LinkList)malloc(sizeof(LNode));
@@ -46,13 +46,27 @@ void contraryList(LinkList &L){
 	  p->next = L->next;
 	  L->next = p;
 	  p = r; 
-	} 
-	
+	} 	
 } 
+//逆置单链表 也可以考虑遍历线性表，并将结点指针反转
+void reverseList(LinkList &L) {
+	LNode *pre;
+	LNode *p = L->next;
+	LNode *r = p->next;
+	p->next = NULL;
+	while(r!=NULL){
+		pre = p;
+		p = r;
+		r = r->next;
+		p->next = pre;
+	}
+	L->next = p;
+}
  main(){
 	LinkList L;
 	createlinkListHead(L);
 	prinList(L);
-	contraryList(L);
+	//contraryList(L);
+	reverseList(L);
 	prinList(L);
 } 
