@@ -29,20 +29,30 @@ typedef struct LNode{
 void prinList(LinkList L){
 	LNode *p = L->next;
 	while(p!=NULL){
-		printf("%d ",p->data);
+		printf("%d ",p->data);//3 2 8 5 9 7 4 1 9999
 		p = p->next;
 	}
 	printf("\n");
 } 
 void deteltX_Y(LinkList &L,int x, int y){
+	//pre是p的前驱结点 
 	LNode *p = L->next;
-	LNode *r = p->next;
+    LNode *pre = L;
 	while(p!=NULL){
-	r = p->next;
 	if(p->data>x && p->data<y){
-		L->next = p->next;
+		pre->next = p->next; 
 		free(p);
-	} 
-	p = r;
-	
+		p = pre->next;
+	} else{
+		pre = p;
+		p = p->next;
+	}
+} 
+}
+main(){
+	LinkList L;
+	createlinkListHead(L);
+	prinList(L);
+	deteltX_Y(L,3,7);
+	prinList(L);
 } 
