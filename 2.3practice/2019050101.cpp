@@ -1,6 +1,7 @@
 /**
- 	假设有两个按元素值递增次序排列的线性表，编写算法 将这两个表归并成一个按元素次序递减的单链表
-	 要求利用原来两个单链表的结点存放归并后的单链表 
+ 	AB元素递增排列单链表
+	 求AB的交集
+	 存放于A中 
 **/
 
 #include<stdio.h>
@@ -35,48 +36,51 @@ void prinList(LinkList L){
 	}
 	printf("\n");
 } 
-//思想：头插法，从第一个结点开始遍历，如果 pa<pb,则pa后移，pa插入到la，若pa=pb，则将pa pb同时后移，若pa>pb,把pb插入到la中，pb后移
-//若pa先循环到底，把pa指向pb，若pb先循环到底，把pa依次插入到 la。 
-void mergeAB(LinkList &la,LinkList &lb){
+//思想：从第一个元素开始扫描，如果两个结点元素相等，则保留。如果pa<pb,则pa后移一个指针，如果pa>pb,则pb后移一个指针 
+void getEqual(LinkList &la,LinkList &lb){
 	LNode *pa = la->next;
+	LNode *pre = la;
 	LNode *pb = lb->next;
-	LNode *r;//r用来存放工作指针的后继结点 
+	LNode *pc = la;
 	la->next = NULL;
 	while(pa&&pb){
-		if(pa->data<=pb->data){
-			r = pa->next;
-			pa->next = la->next;
-			la->next = pa;
-			pa = r;
+		if(pa->data<pb->data){
+			LNode *u = pa;
+			pa = pa->next;
+			free(u);
+		}else if(pa->data>pb->data){
+			LNode *u = pb;
+			pb = pb->next;
+			free(u); 
+		}else{
+			pc->next = pa;
+			pc = pa;
+			pa = pa->next;
+			LNode *u = pb;
+			pb = pb->next;
+			free(u); 
 		}
-		else{
-			r = pb->next;
-			pb->next = la->next;
-			la->next = pb;
-			pb = r;
-		} 
 	}
-	if(pa){
-		pb = pa;
+	while(pa){
+		LNode *u = pa;
+		pa = pa->next;
+		free(u);
 	}
 	while(pb){
-		r = pb->next;
-		pb->next = la->next;
-		la->next = pb;
-		pb = r;
+		LNode *u = pb;
+		pb = pb->next;
+		free(u);
 	}
+	pc->next = NULL;
 	free(lb);
-} 
+}  
 main(){
 	LinkList la;
 	LinkList lb;
 	createlinkListHead(la);
 	createlinkListHead(lb);
-	prinList(la);
+	prinList(la);//9 7 5 3 1 9999 10 9 8 5 4 2 9999
 	prinList(lb);
-	mergeAB(la,lb);//9 7 5 3 1 9999 10 9 8 5 4 2 9999
+	getEqual(la,lb); 
 	prinList(la);
-	//prinList(lb);
-	
-
 }

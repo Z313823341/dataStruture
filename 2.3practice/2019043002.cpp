@@ -41,7 +41,7 @@ LinkList getCommon(LinkList la,LinkList lb){
 	LinkList lc = (LinkList)malloc(sizeof(LNode));
 	
 	LNode *r = lc; 
-	while((pa!=NULL)&&(pb!=NULL)){
+	while(pa&&pb){
 		
 			printf("%d\n",pb->data);
 		 if(pa->data<pb->data)
